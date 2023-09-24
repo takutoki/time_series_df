@@ -19,11 +19,16 @@ default: &default
   encoding: unicode
   # For details on connection pooling, see Rails configuration guide
   # https://guides.rubyonrails.org/configuring.html#database-pooling
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  pool:      <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  host:      <%= ENV.fetch('PGHOST', 'localhost') %>
+  port:      <%= ENV.fetch('PGPORT', '5432') %>
+  database:  <%= ENV.fetch('PGDATABASE', 'time_series_df_development')  %>
+  username:  <%= ENV.fetch('PGUSER', 'db_owner') %>
+  password:  <%= ENV.fetch('PGPASSWORD', 'pass01') %>
 
 development:
   <<: *default
-  database: app_development
+  database: time_series_df_development
 
   # The specified database role being used to connect to postgres.
   # To create additional roles in postgres see `$ createuser --help`.
@@ -57,7 +62,7 @@ development:
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: app_test
+  database: time_series_df_test
 
 # As with config/credentials.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is

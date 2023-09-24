@@ -2,12 +2,23 @@ version: "3.9"
 services:
   db:
     image: postgres:16.0-alpine3.18
+    container_name: db_postgres_16
     environment:
-      POSTGRES_PASSWORD: password
+      POSTGRES_PASSWORD: pass01
+    ports:
+      - "5432:5432"
     volumes:
       - ./tmp/db:/var/lib/postgresql/data
+      - ./initdb/:/docker-entrypoint-initdb.d/
   web:
     build: .
+    container_name: web_rails_7
+    environment:
+      RAILS_ENV: development
+      RAILS_SERVE_STATIC_FILES: "true"
+      RAILS_LOG_TO_STDOUT: "true"
+      RAILS_MAX_THREADS: 5
+      PGHOST: "db"
     command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
     tty: true
     ports:

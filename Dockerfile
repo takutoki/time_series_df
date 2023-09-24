@@ -10,7 +10,7 @@ RUN mkdir /app
 WORKDIR /app
 
 COPY Gemfile* /app/
-COPY entrypoint.sh /app/entrypoint.sh
+# COPY entrypoint.sh /app/entrypoint.sh
 
 RUN bundle install
 
